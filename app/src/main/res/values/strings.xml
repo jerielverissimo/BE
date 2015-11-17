@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Black Eyes</string>
+    <string name="apresentacao"> Bem vindo ao black eyes, um aplicativo feito para facilitar seu cotidiano!
+        </string>
+    <string name="title">Tutorial do Black Eyes</string>
+    <string name="selecao">Para selecionar um dispositivo basta ...</string>
+    <string name="title_activity_cadastro">Cadastro</string>
+    <string name="cadastroHelp">Primeiro selecione um dispositivo disponivel na parte superior</string>
+
+</resources>

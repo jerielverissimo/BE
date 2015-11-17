@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Procurar dispositivo"
+        android:id="@+id/btnProcura"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_weight="1"
+        android:theme="@style/Base.Widget.AppCompat.Button.Borderless.Colored" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Cadastrar dispositivo"
+        android:id="@+id/btnCadastro"
+        android:layout_weight="1"
+        android:theme="@style/Widget.AppCompat.Button.Colored" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Tutorial"
+        android:id="@+id/btnTutorial"
+        android:layout_weight="1"
+        style="@style/Base.Widget.AppCompat.Button.Colored" />
+
+</LinearLayout>
