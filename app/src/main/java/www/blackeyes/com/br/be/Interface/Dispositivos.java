@@ -22,7 +22,6 @@ public class Dispositivos extends AppCompatActivity implements View.OnClickListe
     Button btnBusca;
     ListView lstDispositivos;
 
-    public static String nomedisp;
 
     public ArrayAdapter<Dispositivo> adpDispositivo;
 
@@ -77,7 +76,6 @@ public class Dispositivos extends AppCompatActivity implements View.OnClickListe
 
         Intent it = new Intent(this, Alterar.class);
 
-        //nomedisp = dispositivo.getNome();
         it.putExtra("DISPOSITIVO", dispositivo);
         startActivityForResult(it, 0);
 
