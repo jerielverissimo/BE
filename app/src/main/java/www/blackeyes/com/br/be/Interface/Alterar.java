@@ -26,30 +26,31 @@ public class Alterar extends Dispositivos {
         btnBuscar = (Button)findViewById(R.id.btnBuscar);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
-        final Bundle bundle = getIntent().getExtras();
 
-        btnAlterar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
 
+    public void onClick(View v){
 
-                if ((bundle != null) && (bundle.containsKey("DISPOSITIVO"))) {
+      switch (v.getId()) {
 
-                    Intent it = new Intent(Alterar.this, Cadastro.class);
+          case R.id.btnAlterar:
+              final Bundle bundle = getIntent().getExtras();
+            if ((bundle != null) && (bundle.containsKey("DISPOSITIVO"))) {
 
-                    it.putExtra("lista", bundle.getSerializable("DISPOSITIVO"));
-                    startActivityForResult(it, 0);
+                Intent it = new Intent(Alterar.this, Cadastro.class);
 
-                }
-
+                it.putExtra("lista", bundle.getSerializable("DISPOSITIVO"));
+                startActivityForResult(it, 0);
             }
-        });
 
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-             progressBar.setVisibility(View.VISIBLE);
-            }
-        });
+          break;
+
+          case R.id.btnBuscar:
+
+            progressBar.setVisibility(View.VISIBLE);
+
+          break;
+
+      }
     }
 }
