@@ -5,14 +5,14 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="www.blackeyes.com.br.be.Interface.Tutorial"
+    tools:context=".Interface.tutoriais.Tutorial"
     android:orientation="vertical">
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Como cadastrar um dispositivo"
-        android:id="@+id/btnComoPro"
+        android:id="@+id/btnTutoCad"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1" />
 
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Como alterar um dispositivo"
-        android:id="@+id/button2"
+        android:id="@+id/btnTutoAlt"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1" />
 
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Como buscar um dispositivo"
-        android:id="@+id/button3"
+        android:id="@+id/btnTutoBus"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1" />
 </LinearLayout>

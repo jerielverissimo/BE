@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class Dispositivo implements Serializable{
 
+    public static String TABELA = "DISPOSITIVOS";
     public static String ID = "_id";
     public static String NOME = "NOME";
     public static String DISPOSITIVO = "DISPOSITIVO";

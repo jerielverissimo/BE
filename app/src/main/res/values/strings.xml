@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Black Eyes</string>
     <string name="apresentacao"> Bem vindo ao black eyes, um aplicativo feito para facilitar seu cotidiano!
+        Para continuar basta tocar na tela duas vezes para ativar a função dos botões, ou apenas uma, para saber quais sãos.
         </string>
     <string name="title">Tutorial do Black Eyes</string>
     <string name="selecao">Para selecionar um dispositivo basta ...</string>
     <string name="title_activity_cadastro">Cadastro</string>
     <string name="cadastroHelp">Primeiro selecione um dispositivo disponivel na parte superior</string>
+    <string name="tutoCad">Quando estiver na tela de cadastro, selecione um dispositivo na lista da parte superior da tela.
+    Depois basta dar um nome a ele,  através da caixa de texto ou tocando duas vezes no botão do canto direito da tela para falar um nome
+         e por fim tocar duas vezes seguidas no botão cadastrar no canto inferior da tela.</string>
 
 </resources>

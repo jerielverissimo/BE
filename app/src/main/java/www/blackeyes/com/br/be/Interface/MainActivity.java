@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
+import www.blackeyes.com.br.be.Interface.tutoriais.Tutorial;
 import www.blackeyes.com.br.be.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     Button btnCadastro, btnProcura, btnTutorial;
 
@@ -21,29 +22,30 @@ public class MainActivity extends AppCompatActivity {
         btnProcura = (Button)findViewById(R.id.btnProcura);
         btnTutorial = (Button)findViewById(R.id.btnTutorial);
 
-        btnCadastro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnCadastro.setOnClickListener(this);
+
+        btnProcura.setOnClickListener(this);
+
+        btnTutorial.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+
+            case R.id.btnCadastro:
                 Intent intent = new Intent(MainActivity.this, Cadastro.class);
                 startActivity(intent);
-            }
-        });
-
-        btnProcura.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Dispositivos.class);
+                break;
+            case R.id.btnProcura:
+                intent = new Intent(MainActivity.this, Dispositivos.class);
                 startActivity(intent);
-            }
-        });
-
-        btnTutorial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Tutorial.class);
+                break;
+            case R.id.btnTutorial:
+                intent = new Intent(MainActivity.this, Tutorial.class);
                 startActivity(intent);
-
-            }
-        });
+                break;
+        }
     }
 }

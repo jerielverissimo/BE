@@ -1,63 +1,97 @@
-package www.blackeyes.com.br.be.Interface;
+  package www.blackeyes.com.br.be.Interface;
 
 
-import android.app.AlertDialog;
+
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
+import java.util.ArrayList;
+
 import www.blackeyes.com.br.be.R;
+import www.blackeyes.com.br.be.app.MessageBox;
+
 import www.blackeyes.com.br.be.database.DataBase;
 import www.blackeyes.com.br.be.dominio.entidades.Dispositivo;
-import www.blackeyes.com.br.be.dominio.repositorioDispositivo;
-import www.blackeyes.com.br.be.logica.FalaTexto;
+import www.blackeyes.com.br.be.dominio.RepositorioDispositivo;
+import www.blackeyes.com.br.be.logica.Falar;
 
-public class Cadastro extends FalaTexto {
+  public class Cadastro extends Falar implements View.OnClickListener{
 
-    Button btnExcluir, btnCadastrar;
-    TextView txtNome;
-    ListView lstDispositivos;
 
-    private DataBase dataBase;
-    private SQLiteDatabase conn;
-    private repositorioDispositivo repositorioDispositivo;
-    private Dispositivo dispositivo;
 
-    private ArrayAdapter<String> adpDispositivos;
+      Button btnExcluir, btnCadastrar;
+      ImageButton btnFalar;
+      EditText txtNome;
+      ListView lstDispositivos;
 
-    @Override
+      private DataBase dataBase;
+      private SQLiteDatabase conn;
+      private RepositorioDispositivo RepositorioDispositivo;
+      private Dispositivo dispositivo;
+
+      private ArrayList<String> mDeviceList = new ArrayList<String>();
+      private BluetoothAdapter mBluetoothAdapter;
+
+
+      @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
 
         btnExcluir = (Button) findViewById(R.id.btnExcluir);
         btnCadastrar = (Button) findViewById(R.id.btnCadastrar);
-        txtNome = (TextView) findViewById(R.id.edtNome);
-        lstDispositivos = (ListView) findViewById(R.id.lstDispositivos);
+        btnFalar = (ImageButton) findViewById(R.id.btnFalar);
+        txtNome = (EditText) findViewById(R.id.edtNome);
+        lstDispositivos = (ListView)findViewById(R.id.lstDispositivos);
 
-        adpDispositivos = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        mBluetoothAdapter.startDiscovery();
+
+          IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+          registerReceiver(mReceiver, filter);
+
+        pegaDadosIntent();
+
+        criaBD();
+
+        btnFalar.setOnClickListener(this);
+
+        btnCadastrar.setOnClickListener(this);
+
+        btnExcluir.setOnClickListener(this);
+
+    }
+
+    public void criaBD(){
+        try {
+
+            dataBase = new DataBase(this);
+            conn = dataBase.getWritableDatabase();
+
+            RepositorioDispositivo = new RepositorioDispositivo(conn);
 
 
-        Snackbar.make(toolbar, getString(R.string.cadastroHelp), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        } catch (SQLException ex) {
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Primeiro selecione um dispositivo disponivel na parte superior", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+            MessageBox.show(this,"Erro","Erro ao tentar criar o banco");
 
+        }
+    }
+
+    public void pegaDadosIntent(){
         Bundle bundle = getIntent().getExtras();
 
         if ((bundle != null) && (bundle.containsKey("lista"))) {
@@ -65,61 +99,16 @@ public class Cadastro extends FalaTexto {
             dispositivo = (Dispositivo) bundle.getSerializable("lista");
             preencheDados();
 
-        } else
+        } else {
             dispositivo = new Dispositivo();
-
-
-        try {
-
-            dataBase = new DataBase(this);
-            conn = dataBase.getWritableDatabase();
-
-            repositorioDispositivo = new repositorioDispositivo(conn);
-
-
-        } catch (SQLException ex) {
-
-            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-            dlg.setMessage("Erro ao criar o bd " + ex.getMessage());
-            dlg.setNeutralButton("OK", null);
-            dlg.show();
-
         }
 
-        btnCadastrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                salvar();
-
-                finish();
-
-            }
-        });
-
-        btnExcluir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                excluir();
-
-                finish();
-            }
-        });
-
-    }
-
-    @Override
-    public void onInit(int status) {
-        if (status == TextToSpeech.SUCCESS) {
-            tts.speak(getString(R.string.cadastroHelp), TextToSpeech.QUEUE_ADD, null);
-        }
     }
 
     private void preencheDados() {
 
         txtNome.setText(dispositivo.getNome());
-        //lstDispositivos.setSelection(Integer.parseInt(dispositivo.getDispositivo()));
+        lstDispositivos.setSelection(Integer.parseInt(dispositivo.getDispositivo()));
 
     }
 
@@ -127,14 +116,12 @@ public class Cadastro extends FalaTexto {
 
         try {
 
-            repositorioDispositivo.excluir(dispositivo.getId());
+            RepositorioDispositivo.excluir(dispositivo.getId());
+            MessageBox.show(this, "Excluir", "Dispositivo excluido");
 
         } catch (Exception ex) {
 
-            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-            dlg.setMessage("Erro ao excluir os dados " + ex.getMessage());
-            dlg.setNeutralButton("OK", null);
-            dlg.show();
+            MessageBox.show(this,"Erro","Erro ao tentar excluir dados");
 
         }
     }
@@ -142,27 +129,67 @@ public class Cadastro extends FalaTexto {
 
     private void salvar() {
 
-
         try {
-
 
             dispositivo.setNome(txtNome.getText().toString());
             dispositivo.setDispositivo("teste");
 
-            if (dispositivo.getId() == 0)
-                repositorioDispositivo.inserir(dispositivo);
-            else
-                repositorioDispositivo.alterar(dispositivo);
+            if (dispositivo.getId() == 0){
+
+                RepositorioDispositivo.inserir(dispositivo);
+
+                MessageBox.show(this, "Cadastro", "Dispositivo cadastrado");
+
+            }
+
+            else{
+
+                RepositorioDispositivo.alterar(dispositivo);
+                MessageBox.show(this, "Cadastro", "Dispositivo alterado");
+
+            }
 
         } catch (Exception ex) {
 
-            AlertDialog.Builder dlg = new AlertDialog.Builder(this);
-            dlg.setMessage("Erro ao inserir os dados " + ex.getMessage());
-            dlg.setNeutralButton("OK", null);
-            dlg.show();
-
+            MessageBox.show(this,"Erro","Erro ao tentar inserir dados");
         }
     }
 
 
-}
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+
+            case R.id.btnCadastrar:
+
+                salvar();
+
+                break;
+
+            case R.id.btnExcluir:
+
+                excluir();
+
+                break;
+            case R.id.btnFalar:
+
+                displaySpeechRecognizer();
+                //txtNome.setText(feedBack(spokenText));
+                break;
+        }
+    }
+
+      private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+          public void onReceive(Context context, Intent intent) {
+              String action = intent.getAction();
+              if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+                  BluetoothDevice device = intent
+                          .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                  mDeviceList.add(device.getName() + "\n" + device.getAddress());
+                  Log.i("BT", device.getName() + "\n" + device.getAddress());
+                  lstDispositivos.setAdapter(new ArrayAdapter<String>(context,
+                          android.R.layout.simple_list_item_1, mDeviceList));
+              }
+          }
+      };
+  }

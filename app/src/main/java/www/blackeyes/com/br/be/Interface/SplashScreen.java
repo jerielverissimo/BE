@@ -1,6 +1,7 @@
 package www.blackeyes.com.br.be.Interface;
 
 import android.content.Intent;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ public class SplashScreen extends AppCompatActivity implements Runnable{
     public void run() {
         startActivity(new Intent(SplashScreen.this, Apresentacao.class));
         finish();
+
+
     }
 
 }

@@ -13,23 +13,25 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lstDispositivos"
-            android:focusable="false" />
+            android:focusable="true" />
+
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="64dp">
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:inputType="textPersonName"
             android:text="Nome"
             android:ems="10"
@@ -37,7 +39,19 @@
             android:enabled="true"
             android:editable="false"
             android:visibility="visible"
-            android:elegantTextHeight="false" />
+            android:elegantTextHeight="false"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+        <ImageButton
+            android:layout_width="36dp"
+            android:layout_height="match_parent"
+            android:id="@+id/btnFalar"
+            android:src="@drawable/botao"
+            android:background="@null"
+            android:focusable="true" />
+
     </LinearLayout>
 
     <LinearLayout

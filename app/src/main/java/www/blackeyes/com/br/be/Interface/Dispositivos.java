@@ -15,7 +15,7 @@ import android.widget.ListView;
 import www.blackeyes.com.br.be.R;
 import www.blackeyes.com.br.be.database.DataBase;
 import www.blackeyes.com.br.be.dominio.entidades.Dispositivo;
-import www.blackeyes.com.br.be.dominio.repositorioDispositivo;
+import www.blackeyes.com.br.be.dominio.RepositorioDispositivo;
 
 public class Dispositivos extends AppCompatActivity implements View.OnClickListener,  AdapterView.OnItemClickListener {
 
@@ -27,7 +27,7 @@ public class Dispositivos extends AppCompatActivity implements View.OnClickListe
 
     private DataBase dataBase;
     private SQLiteDatabase conn;
-    private repositorioDispositivo repositorioDispositivo;
+    private RepositorioDispositivo RepositorioDispositivo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +44,9 @@ public class Dispositivos extends AppCompatActivity implements View.OnClickListe
             dataBase = new DataBase(this);
             conn = dataBase.getWritableDatabase();
 
-            repositorioDispositivo = new repositorioDispositivo(conn);
+            RepositorioDispositivo = new RepositorioDispositivo(conn);
 
-            adpDispositivo = repositorioDispositivo.buscaDispositivos(this);
+            adpDispositivo = RepositorioDispositivo.buscaDispositivos(this);
 
             lstDispositivos.setAdapter(adpDispositivo);
 
@@ -63,7 +63,7 @@ public class Dispositivos extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        adpDispositivo = repositorioDispositivo.buscaDispositivos(this);
+        adpDispositivo = RepositorioDispositivo.buscaDispositivos(this);
 
         lstDispositivos.setAdapter(adpDispositivo);
 
@@ -74,7 +74,7 @@ public class Dispositivos extends AppCompatActivity implements View.OnClickListe
 
         Dispositivo dispositivo = adpDispositivo.getItem(position);
 
-        Intent it = new Intent(this, Alterar.class);
+        Intent it = new Intent(this, Acao.class);
 
         it.putExtra("DISPOSITIVO", dispositivo);
         startActivityForResult(it, 0);
@@ -84,7 +84,7 @@ public class Dispositivos extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent it = new Intent(Dispositivos.this, Alterar.class);
+        Intent it = new Intent(Dispositivos.this, Acao.class);
         startActivityForResult(it, 0);
     }
 }

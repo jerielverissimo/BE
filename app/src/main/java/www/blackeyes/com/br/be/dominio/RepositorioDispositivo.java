@@ -11,11 +11,11 @@ import www.blackeyes.com.br.be.dominio.entidades.Dispositivo;
 /**
  * Created by jeriel on 11/7/15.
  */
-public class repositorioDispositivo {
+public class RepositorioDispositivo {
 
     private SQLiteDatabase conn;
 
-    public repositorioDispositivo (SQLiteDatabase conn) {
+    public RepositorioDispositivo(SQLiteDatabase conn) {
 
         this.conn = conn;
     }
@@ -24,16 +24,16 @@ public class repositorioDispositivo {
 
         ContentValues values = new ContentValues();
 
-        values.put("NOME"       , dispositivo.getNome());
-        values.put("DISPOSITIVO"    , dispositivo.getDispositivo());
+        values.put(Dispositivo.NOME       , dispositivo.getNome());
+        values.put(Dispositivo.DISPOSITIVO   , dispositivo.getDispositivo());
+
 
         return values;
 
     }
     public void excluir(long id){
 
-        conn.delete("DISPOSITIVOS", " _id = ?", new String[]{String.valueOf(id)});
-
+        conn.delete(Dispositivo.TABELA, " _id = ?", new String[]{String.valueOf(id)});
     }
 
     public void alterar(Dispositivo dispositivo) {
@@ -41,13 +41,13 @@ public class repositorioDispositivo {
 
         ContentValues values = preencheContentValues(dispositivo);
 
-        conn.update("DISPOSITIVOS", values, " _id = ? ", new String[]{String.valueOf(dispositivo.getId())});
+        conn.update(Dispositivo.TABELA, values, " _id = ? ", new String[]{String.valueOf(dispositivo.getId())});
     }
 
     public void inserir(Dispositivo dispositivo){
 
         ContentValues values = preencheContentValues(dispositivo);
-        conn.insertOrThrow("DISPOSITIVOS", null, values);
+        conn.insertOrThrow(Dispositivo.TABELA, null, values);
 
     }
 
@@ -55,7 +55,7 @@ public class repositorioDispositivo {
 
         ArrayAdapter<Dispositivo> adbDispositivo = new ArrayAdapter<Dispositivo>(context, android.R.layout.simple_list_item_1);
 
-        Cursor cursor = conn.query("DISPOSITIVOS", null, null, null, null, null, null);
+        Cursor cursor = conn.query(Dispositivo.TABELA, null, null, null, null, null, null);
 
         if(cursor.getCount() > 0){
 
